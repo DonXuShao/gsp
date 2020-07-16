@@ -129,4 +129,20 @@ public interface SpringCloudService {
      **/
     @GetMapping("/selectWhiteOrBlackList")
     ResultData selectWhiteOrBlackList(@RequestParam Map map);
+
+    /**
+     * @Author Don
+     * @Description 随机按照比例以及区进行查询
+     * @Date 2020/7/16 15:30
+     **/
+    @GetMapping("/selectRandomCheckUnit")
+    ResultData selectRandomCheckUnit(@RequestParam Map map);
+
+    /**
+     * @Author Don
+     * @Description 随机抽查人员
+     * @Date 2020/7/16 16:42
+     **/
+    @GetMapping("/selectRandomPerson")
+    ResultData selectRandomPerson(@RequestParam Map map);
 }

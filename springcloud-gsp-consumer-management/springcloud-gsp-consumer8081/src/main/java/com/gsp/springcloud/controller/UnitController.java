@@ -161,4 +161,24 @@ public class UnitController {
     public ResultData selectWhiteOrBlackList(@RequestParam Map map) {
         return springCloudService.selectWhiteOrBlackList(map);
     }
+
+    /**
+     * @Author Don
+     * @Description 随机按照比例以及区进行查询
+     * @Date 2020/7/16 17:11
+     **/
+    @GetMapping("/selectRandomCheckUnit")
+    public ResultData selectRandomCheckUnit(@RequestParam Map map) {
+        return springCloudService.selectRandomCheckUnit(map);
+    }
+
+    /**
+     * @Author Don
+     * @Description 随机抽查人员
+     * @Date 2020/7/16 17:11
+     **/
+    @GetMapping("/selectRandomPerson")
+    public ResultData selectRandomPerson(@RequestParam Map map) {
+        return springCloudService.selectRandomPerson(map);
+    }
 }
