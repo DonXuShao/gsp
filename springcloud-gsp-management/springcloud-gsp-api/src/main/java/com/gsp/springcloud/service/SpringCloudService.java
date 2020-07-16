@@ -121,4 +121,12 @@ public interface SpringCloudService {
      **/
     @GetMapping("/selectResource")
     ResultData selectResource(@RequestParam Map map);
+
+    /**
+     * @Author Don
+     * @Description 查询黑白名单
+     * @Date 2020/7/16 15:07
+     **/
+    @GetMapping("/selectWhiteOrBlackList")
+    ResultData selectWhiteOrBlackList(@RequestParam Map map);
 }

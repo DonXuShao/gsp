@@ -72,6 +72,10 @@ public class SpringCloudServiceFallBack implements FallbackFactory<SpringCloudSe
             public ResultData selectResource(Map map) {
                 return null;
             }
+
+            public ResultData selectWhiteOrBlackList(Map map) {
+                return null;
+            }
         };
         return springCloudService;
     }

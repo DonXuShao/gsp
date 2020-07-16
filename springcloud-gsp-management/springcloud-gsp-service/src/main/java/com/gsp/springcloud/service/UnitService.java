@@ -3,6 +3,7 @@ package com.gsp.springcloud.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gsp.springcloud.base.BaseService;
+import com.gsp.springcloud.base.ResultData;
 import com.gsp.springcloud.mapper.UnitMapper;
 import com.gsp.springcloud.model.MappingUnit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,53 @@ public class UnitService extends BaseService<MappingUnit> {
         return resultMap;
     }
 
+    /**
+     * @Author Don
+     * @Description 查询黑白名单
+     * @Date 2020/7/16 15:06
+     **/
+    public Map<String, Object> selectWhiteOrBlackList(Map map) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        MappingUnit tMappingUnit = new MappingUnit();
+        if (null != map.get("unit_status")) {
+            tMappingUnit.setUnitStatus(Integer.parseInt(map.get("unit_status") + ""));
+        }
+        List<MappingUnit> mappingUnits = super.selectList(tMappingUnit);
+        PageHelper.startPage(Integer.parseInt(map.get("currentPage") + ""), Integer.parseInt(map.get("pageSize") + ""));
+        PageInfo pageInfo = new PageInfo(mappingUnits);
+        if (mappingUnits != null && mappingUnits.size() > 0) {
+            resultMap.put("code", SELECT_DATA_SUCCESS.getCode());
+            resultMap.put("msg", SELECT_DATA_SUCCESS.getMsg());
+            resultMap.put("data", pageInfo);
+        } else {
+            resultMap.put("code", SELECT_DATA_FAILED.getCode());
+            resultMap.put("msg", SELECT_DATA_FAILED.getMsg());
+        }
+        return resultMap;
+    }
 
+    /**
+     * @Author Don
+     * @Description  随机按照比例查询
+     * @Date 2020/7/16 15:29
+     **/
+    public Map<String, Object> selectRandomCheckUnit(Map map) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+
+        List<HashMap> resultdata = unitMapper.selectRandomCheckUnit(map);
+
+        PageHelper.startPage(Integer.parseInt(map.get("currentPage") + ""), Integer.parseInt(map.get("pageSize") + ""));
+        PageInfo pageInfo = new PageInfo(resultdata);
+
+        if (resultdata != null && resultdata.size() > 0) {
+            resultMap.put("code", SELECT_DATA_SUCCESS.getCode());
+            resultMap.put("msg", SELECT_DATA_SUCCESS.getMsg());
+            resultMap.put("data", pageInfo);
+        } else {
+            resultMap.put("code", SELECT_DATA_FAILED.getCode());
+            resultMap.put("msg", SELECT_DATA_FAILED.getMsg());
+        }
+        return resultMap;
+    }
 
 }

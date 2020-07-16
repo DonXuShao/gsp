@@ -152,5 +152,13 @@ public class UnitController {
         return springCloudService.selectResource(map);
     }
 
-
+    /**
+     * @Author Don
+     * @Description 查询黑白名单
+     * @Date 2020/7/16 15:07
+     **/
+    @GetMapping("/selectWhiteOrBlackList")
+    public ResultData selectWhiteOrBlackList(@RequestParam Map map) {
+        return springCloudService.selectWhiteOrBlackList(map);
+    }
 }

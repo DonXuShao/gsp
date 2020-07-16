@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * @Author Don
  * @Date: 2020/7/16 8:51
@@ -37,4 +38,6 @@ public class LogController extends CommonController<Log> {
     public Integer addLoginlog(@RequestBody Log log) {
         return getBaseService().add(log);
     }
+
+
 }

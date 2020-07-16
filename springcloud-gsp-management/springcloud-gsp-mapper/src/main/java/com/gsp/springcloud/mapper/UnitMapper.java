@@ -6,6 +6,7 @@ import tk.mybatis.mapper.common.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Don
@@ -25,10 +26,17 @@ public interface UnitMapper extends Mapper<MappingUnit> {
 
     /**
      * @Author Don
-     * @Description  条件查询单位
+     * @Description 条件查询单位
      * @Date 2020/7/14 9:56
      **/
     List<HashMap> selectUnit(MappingUnit tMappingUnit);
+
+    /**
+     * @Author Don
+     * @Description 随机抽查单位
+     * @Date 2020/7/16 15:15
+     **/
+    List<HashMap> selectRandomCheckUnit(Map map);
 
 
 }

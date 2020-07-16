@@ -3,6 +3,7 @@ package com.gsp.springcloud.controller;
 import com.gsp.springcloud.base.BaseService;
 import com.gsp.springcloud.base.CommonController;
 import com.gsp.springcloud.base.ResultData;
+import com.gsp.springcloud.mapper.CheckPersonMapper;
 import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,8 @@ public class UnitController extends CommonController<MappingUnit> {
     private SpecialPostService specialPostService;
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private CheckPersonService checkPersonService;
 
     @Override
     public BaseService<MappingUnit> getBaseService() {
@@ -233,6 +236,51 @@ public class UnitController extends CommonController<MappingUnit> {
     @GetMapping("/selectResource")
     public ResultData selectResource(@RequestParam Map map) {
         Map<String, Object> resultMap = resourceService.selectResource(map);
+        if (SELECT_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            return super.selectSuccess(resultMap.get("data"));
+        } else {
+            return super.selectFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description 查询黑白名单
+     * @Date 2020/7/16 15:07
+     **/
+    @GetMapping("/selectWhiteOrBlackList")
+    public ResultData selectWhiteOrBlackList(@RequestParam Map map) {
+        Map<String, Object> resultMap = unitService.selectWhiteOrBlackList(map);
+        if (SELECT_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            return super.selectSuccess(resultMap.get("data"));
+        } else {
+            return super.selectFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description 随机按照比例以及区进行查询
+     * @Date 2020/7/16 15:30
+     **/
+    @GetMapping("/selectRandomCheckUnit")
+    public ResultData selectRandomCheckUnit(@RequestParam Map map) {
+        Map<String, Object> resultMap = unitService.selectRandomCheckUnit(map);
+        if (SELECT_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            return super.selectSuccess(resultMap.get("data"));
+        } else {
+            return super.selectFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description 随机抽查人员
+     * @Date 2020/7/16 16:42
+     **/
+    @GetMapping("/selectRandomPerson")
+    public ResultData selectRandomPerson(@RequestParam Map map) {
+        Map<String, Object> resultMap = checkPersonService.selectRandomPerson(map);
         if (SELECT_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
             return super.selectSuccess(resultMap.get("data"));
         } else {

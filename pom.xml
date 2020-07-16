@@ -250,6 +250,12 @@
                 <artifactId>feign-form-spring</artifactId>
                 <version>3.8.0</version>
             </dependency>
+            <!--apache.poi，导出excle使用-->
+            <dependency>
+                <groupId>cn.afterturn</groupId>
+                <artifactId>easypoi-base</artifactId>
+                <version>3.2.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

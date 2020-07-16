@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gsp.springcloud.mapper.CheckPersonMapper">
+    <resultMap id="BaseResultMap" type="com.gsp.springcloud.model.CheckPerson">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="unit_name" property="unitName" jdbcType="VARCHAR"/>
+        <result column="duty" property="duty" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="modify_time" property="modifyTime" jdbcType="DATE"/>
+        <result column="memo" property="memo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectRandomPerson" resultType="HashMap" parameterType="Map">
+        select @rownum := @rownum + 1, t_check_person.*
+        from (select @rownum := 0) row, t_check_person
+        <where>
+            1=1
+            <if test="random !=null">
+                and @rownum &lt; (select round(count(*) * #{random}) from t_check_person)
+            </if>
+            order by rand()
+        </where>
+    </select>
+</mapper>

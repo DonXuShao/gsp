@@ -316,4 +316,10 @@ public class MappingUnit extends BaseModel {
      */
     private String coordinate;
 
+    /**
+     * 随机查询时使用
+     */
+    @Column(name = "")
+    private Double random;
+
     }
