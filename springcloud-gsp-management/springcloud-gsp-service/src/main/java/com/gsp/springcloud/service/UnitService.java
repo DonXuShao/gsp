@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gsp.springcloud.status.AddStatus.ADD_DATA_FAILED;
+import static com.gsp.springcloud.status.AddStatus.ADD_DATA_SUCCESS;
 import static com.gsp.springcloud.status.OperationStatus.SUCCESS;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_FAILED;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
@@ -38,8 +40,6 @@ public class UnitService extends BaseService<MappingUnit> {
     @Autowired
     private UnitMapper unitMapper;
 
-    @Autowired
-    AuditService auditService;
 
     /**
      * @return
@@ -152,15 +152,13 @@ public class UnitService extends BaseService<MappingUnit> {
      * 更新单位审核状态，添加审核记录
      * @Date 2020/7/17 19:06
      * @Parameter : [map]
-     * @Return  java.util.Map<java.lang.String,java.lang.Object>
+     * @Return java.util.Map<java.lang.String, java.lang.Object>
      **/
     public Map<String, Object> updateMappingUnitAudit(Map map) {
         HashMap<String, Object> resultMap = new HashMap<>();
-        Audit audit = new Audit();
+
         MappingUnit mappingUnit = new MappingUnit();
         Integer updateResult;
-        Integer addAuditResult;
-
         mappingUnit.setId(Long.parseLong(map.get("id") + ""));
         Integer audit_status = Integer.parseInt(map.get("audit_status") + "");
         if (audit_status == 0) {
@@ -169,27 +167,14 @@ public class UnitService extends BaseService<MappingUnit> {
             mappingUnit.setAuditStatus(1);
         }
         updateResult = super.update(mappingUnit);
-        MappingUnit mappingUnit1 = super.selectOne(mappingUnit);
-        if (updateResult > 0) {
-            audit.setId(Long.parseLong(FileNameUtils.getFileName()));
-            audit.setName(map.get("name") + "");
-            audit.setType(Integer.parseInt(map.get("type") + ""));
-            audit.setUserId(mappingUnit1.getUserId());
-            audit.setAuditTime(DateUtils.formatDate(new Date()));
-            audit.setRefId(mappingUnit1.getUserId());
-            audit.setStatus(audit_status);
-            audit.setCreateTime(DateUtils.formatDate(new Date()));
-            audit.setMemo(map.get("memo") + "");
 
-            addAuditResult = auditService.add(audit);
-            if (addAuditResult != null && addAuditResult > 0) {
-                resultMap.put("code", UPDATE_DATA_SUCCESS.getCode());
-                resultMap.put("msg", UPDATE_DATA_SUCCESS.getMsg());
-                resultMap.put("data", updateResult);
-            } else {
-                resultMap.put("code", UPDATE_DATA_FAILED.getCode());
-                resultMap.put("msg", UPDATE_DATA_FAILED.getMsg());
-            }
+        if (updateResult != null && updateResult > 0) {
+            resultMap.put("code", ADD_DATA_SUCCESS.getCode());
+            resultMap.put("msg", ADD_DATA_SUCCESS.getMsg());
+            resultMap.put("data", updateResult);
+        } else {
+            resultMap.put("code", ADD_DATA_FAILED.getCode());
+            resultMap.put("msg", ADD_DATA_FAILED.getMsg());
         }
         return resultMap;
     }
@@ -263,6 +248,9 @@ public class UnitService extends BaseService<MappingUnit> {
             mappingUnit.setId(Long.parseLong(FileNameUtils.getFileName()));
             mappingUnit.setCreateTime(DateUtils.formatDate(new Date()));
             operation = super.add(mappingUnit);
+            if (operation > 0) {
+
+            }
         }
 
         if (operation > 0) {

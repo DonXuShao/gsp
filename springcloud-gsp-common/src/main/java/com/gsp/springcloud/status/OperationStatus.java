@@ -7,16 +7,23 @@ package com.gsp.springcloud.status;
  * @Version 1.0
  **/
 public enum OperationStatus {
-    SUCCESS("1", "操作成功"),
-    FAILED("2", "操作失败"),
-    DELETE_OPERATION("3", "删除操作"),
-    UPDATE_OPERATION("4", "修改操作"),
-    INSERT_OPERATION("5", "新增操作"),
-    ZUUL_FILTER_SUCCESS("6", "路由过滤成功"),
-    ZUUL_FILTER_FAILED("7", "路由过滤失败"),
-    ZUUL_FILTER_TOKEN_SUCCESS("8", "token值存在"),
-    ZUUL_FILTER_TOKEN_FAILED("9", "token值不存在"),
-    REQUEST_IS_NULL("10", "request对象为null");
+    SUCCESS("1","操作成功"),
+    FAILED("2","操作失败"),
+    DELETE_OPERATION_SUCCESS("3","删除成功"),
+    DELETE_OPERATION_FAILED("4","删除失败"),
+    DELETE_OPERATION_EXIST("5","删除数据不存在"),
+    UPDATE_OPERATION_SUCCESS("6","修改成功"),
+    UPDATE_OPERATION_FAILED("7","修改失败"),
+    UPDATE_OPERATION_EXIST("8","修改数据已存在"),
+    INSERT_OPERATION_SUCCESS("9","新增成功"),
+    INSERT_OPERATION_FAILED("10","新增失败"),
+    INSERT_OPERATION_EXIST("11","新增数据已存在"),
+    ZUUL_FILTER_SUCCESS("12","路由过滤成功"),
+    ZUUL_FILTER_FAILED("13","路由过滤失败"),
+    ZUUL_FILTER_TOKEN_SUCCESS("14","token值存在"),
+    ZUUL_FILTER_TOKEN_FAILED("15","token值不存在"),
+    REQUEST_IS_NULL("16","request对象为null");
+
 
     OperationStatus(String code, String msg) {
         this.code = code;

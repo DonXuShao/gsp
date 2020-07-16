@@ -51,4 +51,27 @@ public class ResourceService extends BaseService<Resource> {
         }
         return resultMap;
     }
+
+    /**
+     * @Author Don
+     * @Description :  新增资源表信息
+     * @Date 2020/7/17 21:49
+     * @Parameter : [resource]
+     * @Return  java.util.Map<java.lang.String,java.lang.Object>
+     **/
+    public Map<String, Object> insertResouce(Resource resource) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        Integer addResult = super.add(resource);
+        if (addResult  > 0) {
+            resultMap.put("code", SELECT_DATA_SUCCESS.getCode());
+            resultMap.put("msg", SELECT_DATA_SUCCESS.getMsg());
+            resultMap.put("data", addResult);
+        } else {
+            resultMap.put("code", SELECT_DATA_FAILED.getCode());
+            resultMap.put("msg", SELECT_DATA_FAILED.getMsg());
+        }
+        return resultMap;
+
+
+    }
 }

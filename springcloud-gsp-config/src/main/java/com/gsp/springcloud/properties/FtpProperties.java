@@ -1,6 +1,9 @@
 package com.gsp.springcloud.properties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author Don
@@ -8,9 +11,9 @@ import lombok.Data;
  * @Discription:FTP服务器配置实体类
  * @Version 1.0
  **/
-//@Component
-//@PropertySource("classpath:properties/ftp.properties")
-//@ConfigurationProperties(prefix = "spring.ftp")
+@Component
+@PropertySource("classpath:properties/ftp.properties")
+@ConfigurationProperties(prefix = "spring.ftp")
 @Data
 public class FtpProperties {
     private String host;

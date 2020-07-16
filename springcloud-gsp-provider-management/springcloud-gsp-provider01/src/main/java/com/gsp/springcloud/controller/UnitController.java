@@ -3,17 +3,15 @@ package com.gsp.springcloud.controller;
 import com.gsp.springcloud.base.BaseService;
 import com.gsp.springcloud.base.CommonController;
 import com.gsp.springcloud.base.ResultData;
-import com.gsp.springcloud.mapper.CheckPersonMapper;
-import com.gsp.springcloud.model.Audit;
-import com.gsp.springcloud.model.CheckPerson;
-import com.gsp.springcloud.model.MappingUnit;
-import com.gsp.springcloud.model.Score;
+import com.gsp.springcloud.model.*;
 import com.gsp.springcloud.service.*;
 import com.gsp.springcloud.utils.DateUtils;
 import com.gsp.springcloud.utils.FileNameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +49,8 @@ public class UnitController extends CommonController<MappingUnit> {
     private ResourceService resourceService;
     @Autowired
     private CheckPersonService checkPersonService;
+    @Autowired
+    private UploadService uploadService;
 
     @Override
     public BaseService<MappingUnit> getBaseService() {
@@ -114,11 +114,33 @@ public class UnitController extends CommonController<MappingUnit> {
     @PostMapping("/updateMappingUnitAudit")
     public ResultData updateMappingUnitAudit(@RequestParam Map map) {
         Map<String, Object> resultMap = unitService.updateMappingUnitAudit(map);
+
         if (UPDATE_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
-            return super.operationSuccess(resultMap.get("data"));
-        } else {
-            return super.operationFailed();
+            //判断如果审核状态修改后 要在审核记录表中添加一条审核记录
+            Integer addAuditResult;
+            Integer audit_status = Integer.parseInt(map.get("audit_status") + "");
+
+            MappingUnit mappingUnit = new MappingUnit();
+            Audit audit = new Audit();
+            mappingUnit.setId(Long.parseLong(map.get("id") + ""));
+            MappingUnit mappingUnit1 = unitService.selectOne(mappingUnit);
+
+            audit.setId(Long.parseLong(FileNameUtils.getFileName()));
+            audit.setName(map.get("name") + "");
+            audit.setType(Integer.parseInt(map.get("type") + ""));
+            audit.setUserId(mappingUnit1.getUserId());
+            audit.setAuditTime(DateUtils.formatDate(new Date()));
+            audit.setRefId(mappingUnit1.getUserId());
+            audit.setStatus(audit_status);
+            audit.setCreateTime(DateUtils.formatDate(new Date()));
+            audit.setMemo(map.get("memo") + "");
+
+            addAuditResult = auditService.add(audit);
+            if (addAuditResult > 0) {
+                return super.operationSuccess(resultMap.get("data"));
+            }
         }
+        return super.operationFailed();
     }
 
     /**
@@ -144,14 +166,41 @@ public class UnitController extends CommonController<MappingUnit> {
      * @Return com.gsp.springcloud.base.ResultData
      **/
     @PostMapping("/addOrUpdateScoreRecords")
-    public ResultData addOrUpdateScoreRecords(@RequestParam Map map) {
+    public ResultData addOrUpdateScoreRecords(@RequestParam Map map,MultipartFile file) {
+
         Map<String, Object> resultMap = scoreService.addScoreRecords(map);
+        //如果添加分值成功 则判断
         if (ADD_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
             //记录新增或者修改成功 修改单位表的分值
             Map<String, Object> updateUnitResult = unitService.updateMappingUnit(map);
-            //TODO 文件添加操作 需联合资源表与单位表
+
             if (UPDATE_DATA_SUCCESS.getCode().equals(updateUnitResult.get("code"))) {
-                return super.updateSuccess(resultMap.get("data") + "");
+                //添加文件操作
+                Resource resource = new Resource();
+//                MultipartFile file = (MultipartFile) map.get("file");
+                if (file != null) {
+                    //7.2.文件上传到ftp服务器上
+                    FtpFile fileName = uploadService.upload(file, (String) map.get("fileName"));
+                    //7.3.判断文件是否上传成功
+                    if (fileName != null) {
+                        //成功
+                        //7.4.将map中的resource的相关value值放到resource中
+                        resource.setName(fileName.getFileName());
+                        resource.setSize(Long.parseLong(map.get("size") + ""));
+                        resource.setPath(fileName.getFilePath());
+                        resource.setType(map.get("type") + "");
+                        resource.setExtName(fileName.getDir());
+                        resource.setRefBizType("附件");
+                        resource.setRefBizId(Long.parseLong(map.get("id") + ""));
+                        resource.setMemo((String) map.get("memo"));
+                        //7.5.对resource添加到数据库中
+                        Map<String, Object> addResourceResult = resourceService.insertResouce(resource);
+                        if (ADD_DATA_SUCCESS.getCode().equals(addResourceResult.get("code"))) {
+                            return super.updateSuccess(resultMap.get("data") + "");
+                        }
+                    }
+                }
+                return super.updateFailed();
             } else {
                 return super.updateFailed();
             }

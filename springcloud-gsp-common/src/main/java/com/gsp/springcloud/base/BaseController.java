@@ -6,8 +6,7 @@ import static com.gsp.springcloud.status.DeleteStatus.*;
 import static com.gsp.springcloud.status.FileStatus.UPLOAD_FAILED;
 import static com.gsp.springcloud.status.FileStatus.UPLOAD_SUCCESS;
 import static com.gsp.springcloud.status.LoginStatus.*;
-import static com.gsp.springcloud.status.OperationStatus.FAILED;
-import static com.gsp.springcloud.status.OperationStatus.SUCCESS;
+import static com.gsp.springcloud.status.OperationStatus.*;
 import static com.gsp.springcloud.status.SelectStatus.*;
 import static com.gsp.springcloud.status.UpdateStatus.*;
 
@@ -200,37 +199,67 @@ public class BaseController {
     }
 
     /**
-     * @Author Don
-     * @Description 添加数据失败，返回自定义消息
-     * @Date 2020/7/14 10:21
-     **/
-    protected ResultData addFailed(String msg) {
+     * 新增数据成功，返回系统消息
+     * @return
+     */
+    protected ResultData addSuccess(){
         ResultData resultData = new ResultData();
-        resultData.setCode(ADD_DATA_FAILED.getCode());
+        resultData.setCode(INSERT_OPERATION_SUCCESS.getCode());
+        resultData.setMsg(INSERT_OPERATION_SUCCESS.getMsg());
+        return resultData;
+    }
+
+    /**
+     * 新增数据成功，返回自定义消息
+     * @return
+     */
+    protected ResultData addSuccess(String msg){
+        ResultData resultData = new ResultData();
+        resultData.setCode(INSERT_OPERATION_SUCCESS.getCode());
         resultData.setMsg(msg);
         return resultData;
     }
 
     /**
-     * @Author Don
-     * @Description 添加的数据已经存在，添加失败，返回系统消息
-     * @Date 2020/7/14 10:21
-     **/
-    protected ResultData addDataEexist() {
+     * 新增数据失败，返回系统消息
+     * @return
+     */
+    protected ResultData addFailed(){
         ResultData resultData = new ResultData();
-        resultData.setCode(ADD_DATA_EXIST.getCode());
-        resultData.setMsg(ADD_DATA_EXIST.getMsg());
+        resultData.setCode(INSERT_OPERATION_FAILED.getCode());
+        resultData.setMsg(INSERT_OPERATION_FAILED.getMsg());
         return resultData;
     }
 
     /**
-     * @Author Don
-     * @Description 添加的数据已经存在，添加失败，返回自定义消息
-     * @Date 2020/7/14 10:21
-     **/
-    protected ResultData addDataEexist(String msg) {
+     * 新增数据失败，返回自定义消息
+     * @return
+     */
+    protected ResultData addFailed(String msg){
         ResultData resultData = new ResultData();
-        resultData.setCode(ADD_DATA_EXIST.getCode());
+        resultData.setCode(INSERT_OPERATION_FAILED.getCode());
+        resultData.setMsg(msg);
+        return resultData;
+    }
+
+    /**
+     * 新增数据已存在，返回系统消息
+     * @return
+     */
+    protected ResultData addExist(){
+        ResultData resultData = new ResultData();
+        resultData.setCode(INSERT_OPERATION_EXIST.getCode());
+        resultData.setMsg(INSERT_OPERATION_EXIST.getMsg());
+        return resultData;
+    }
+
+    /**
+     * 新增数据已存在，返回自定义消息
+     * @return
+     */
+    protected ResultData addExist(String msg){
+        ResultData resultData = new ResultData();
+        resultData.setCode(INSERT_OPERATION_EXIST.getCode());
         resultData.setMsg(msg);
         return resultData;
     }
