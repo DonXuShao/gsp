@@ -1,0 +1,4 @@
+com\gsp\springcloud\annotation\LogAspect.class
+com\gsp\springcloud\controller\UnitController.class
+com\gsp\springcloud\ApplicationConsumer8081.class
+com\gsp\springcloud\config\CrosConfig.class

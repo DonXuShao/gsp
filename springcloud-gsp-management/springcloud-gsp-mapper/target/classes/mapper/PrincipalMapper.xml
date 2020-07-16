@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gsp.springcloud.mapper.PrincipalMapper">
+    <resultMap id="BaseResultMap" type="com.gsp.springcloud.model.Principal">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="id_type" property="idType" jdbcType="VARCHAR"/>
+        <result column="id_number" property="idNumber" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="INTEGER"/>
+        <result column="work_year" property="workYear" jdbcType="INTEGER"/>
+        <result column="duty" property="duty" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="mapping_year" property="mappingYear" jdbcType="INTEGER"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="modify_time" property="modifyTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="principalResource" type="com.gsp.springcloud.model.Principal" autoMapping="true">
+        <id property="id" column="id"/>
+        <!--ofType指向List中泛型的数据类型-->
+        <collection property="resources" ofType="com.gsp.springcloud.model.Principal" autoMapping="true">
+            <id property="id" column="id"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="selectPrincipalById" resultMap="principalResource" parameterType="java.lang.String">
+    select p.*,r.path from t_resource r join t_principal p on r.ref_biz_id = p.id where p.id = #{id}
+  </select>
+
+
+    <select id="selectHeaderOfUnit" resultType="HashMap" parameterType="com.gsp.springcloud.model.MappingUnit">
+        select tp.* from t_principal tp,t_mapping_unit tmu
+        where tp.user_id = tmu.user_id
+        <if test="id != null">
+            and tmu.id = #{id}
+        </if>
+    </select>
+
+    <select id="selectHeaderOfUnitDetail" resultType="HashMap" parameterType="com.gsp.springcloud.model.Principal">
+        select tp.*, tr.*,tr.name resouce_name
+        from t_principal tp,
+        t_resource tr
+        where tp.id = tr.ref_biz_id
+        <if test="id != null">
+            and tp.id = #{id}
+        </if>
+    </select>
+</mapper>

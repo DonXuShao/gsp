@@ -1,0 +1,4 @@
+com\gsp\springcloud\service\SpringCloudService.class
+com\gsp\springcloud\fallback\SpringCloudServiceFallBack.class
+com\gsp\springcloud\fallback\SpringCloudServiceFallBack$1.class
+com\gsp\springcloud\service\IProjectService.class

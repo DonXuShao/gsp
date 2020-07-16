@@ -1,0 +1,10 @@
+com\gsp\springcloud\mapper\AuditMapper.class
+com\gsp\springcloud\mapper\UserMapper.class
+com\gsp\springcloud\mapper\ResourceMapper.class
+com\gsp\springcloud\mapper\SpecialPostMapper.class
+com\gsp\springcloud\mapper\TechnicistMapper.class
+com\gsp\springcloud\mapper\EquipmentMapper.class
+com\gsp\springcloud\mapper\ScoreMapper.class
+com\gsp\springcloud\mapper\UnitMapper.class
+com\gsp\springcloud\mapper\LogMapper.class
+com\gsp\springcloud\mapper\PrincipalMapper.class

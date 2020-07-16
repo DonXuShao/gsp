@@ -1,0 +1,5 @@
+com\gsp\springcloud\properties\RedisClusterProperties.class
+com\gsp\springcloud\config\RedisClusterConfig.class
+com\gsp\springcloud\ApplicationConfig8094.class
+com\gsp\springcloud\utils\FtpUtils.class
+com\gsp\springcloud\properties\FtpProperties.class

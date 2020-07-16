@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gsp.springcloud.mapper.ScoreMapper">
+    <resultMap id="BaseResultMap" type="com.gsp.springcloud.model.Score">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="score_plus" property="scorePlus" jdbcType="INTEGER"/>
+        <result column="score_subtract" property="scoreSubtract" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="INTEGER"/>
+        <result column="unit_id" property="unitId" jdbcType="BIGINT"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="modify_time" property="modifyTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectScoreRecords" resultType="HashMap" parameterType="com.gsp.springcloud.model.MappingUnit">
+        select ts.id,
+        ts.score_plus,
+        ts.score_subtract,
+        ts.score,
+        ts.reason,
+        ts.create_time,
+        tmu.unit_name,
+        tr.name
+        from t_score ts
+        left join t_mapping_unit tmu on ts.unit_id = tmu.id
+        left join t_resource tr on tmu.id = tr.ref_biz_id
+        <if test="id != null">
+            and ts.id = #{id}
+        </if>
+        group by ts.id
+    </select>
+</mapper>
