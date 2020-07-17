@@ -164,7 +164,17 @@ public class BaseController {
         resultData.setMsg(SUCCESS.getMsg());
         return resultData;
     }
-
+    /**
+     * 操作成功，返回自定义消息，返回一条数据
+     * @return
+     */
+    protected ResultData operationSuccess(Object data,String msg){
+        ResultData resultData = new ResultData();
+        resultData.setCode(SUCCESS.getCode());
+        resultData.setMsg(msg);
+        resultData.setData(data);
+        return resultData;
+    }
     /**
      * @Author Don
      * @Description 操作失败 返回系统消息

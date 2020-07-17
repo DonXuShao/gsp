@@ -31,12 +31,15 @@ public interface UnitMapper extends Mapper<MappingUnit> {
      **/
     List<HashMap> selectUnit(MappingUnit tMappingUnit);
 
+
+
     /**
      * @Author Don
      * @Description 随机抽查单位
      * @Date 2020/7/16 15:15
      **/
     List<HashMap> selectRandomCheckUnit(Map map);
+
 
 
 }

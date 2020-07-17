@@ -29,8 +29,8 @@ public class AuditService extends BaseService<Audit> {
 
     /**
      * @Author Don
-     * @Description  查询审核记录列表
-     * @Date 2020/7/14 21:46 
+     * @Description 查询审核记录列表
+     * @Date 2020/7/14 21:46
      **/
     public Map<String, Object> selectAuditRecords(Map map) {
         HashMap<String, Object> resultMap = new HashMap<>();
@@ -52,5 +52,16 @@ public class AuditService extends BaseService<Audit> {
             resultMap.put("msg", SELECT_DATA_FAILED.getMsg());
         }
         return resultMap;
+    }
+
+    /**
+     * @Author Don
+     * @Description :  新增审核记录
+     * @Date 2020/7/17 15:21
+     * @Parameter : [audit]
+     * @Return java.lang.Integer
+     **/
+    public Integer addAudit(Audit audit) {
+        return super.add(audit);
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public interface TechnicistMapper extends Mapper<Technicist> {
     /**
      * @Author Don
-     * @Description  负责人信息列表
+     * @Description  技术人员信息列表
      * @Date 2020/7/14 20:30
      **/
     List<HashMap> selectTechnicalPerson(MappingUnit tMappingUnit);

@@ -4,17 +4,21 @@ import com.gsp.springcloud.base.BaseService;
 import com.gsp.springcloud.base.CommonController;
 import com.gsp.springcloud.base.ResultData;
 import com.gsp.springcloud.mapper.CheckPersonMapper;
+import com.gsp.springcloud.model.Audit;
 import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.model.Score;
 import com.gsp.springcloud.service.*;
+import com.gsp.springcloud.utils.DateUtils;
+import com.gsp.springcloud.utils.FileNameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gsp.springcloud.status.AddStatus.ADD_DATA_SUCCESS;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
 import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_SUCCESS;
 
@@ -82,6 +86,62 @@ public class UnitController extends CommonController<MappingUnit> {
 
     /**
      * @Author Don
+     * @Description :  单位注册
+     * @Date 2020/7/17 15:18
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PutMapping("/addUnit")
+    public ResultData addUnit(@RequestParam Map map) {
+        return super.add(map);
+    }
+
+    /**
+     * @Author Don
+     * @Description : 单位审核
+     * @Date 2020/7/17 15:55
+     * @Parameter : [id, audit_status]
+     * @Return  com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/updateProjectById")
+    public ResultData updateProjectById(Long id,Integer audit_status){
+        MappingUnit mappingUnit = new MappingUnit();
+        Map map = new HashMap();
+        mappingUnit.setId(id);
+        if (audit_status == 0){
+            mappingUnit.setAuditStatus(0);
+            map.put("mappingUnit",mappingUnit);
+            ResultData update = super.update(map);
+            if (update != null && !update.equals("")){
+                Audit tAudit = new Audit();
+                tAudit.setId(Long.parseLong(FileNameUtils.getFileName())).setAuditTime(DateUtils.formatDate(new Date())).setRefId(id).setUserId(mappingUnit.getUserId()).setStatus(0);
+                Integer addAudit = auditService.addAudit(tAudit);
+                if (addAudit != null && addAudit > 0) {
+                    return super.operationSuccess(addAudit,"已将该项目审核状态修改为通过并增加了记录");
+                }
+                return super.operationSuccess(update,"已将该项目审核状态修改为通过,增加记录失败");
+            }
+            return super.operationFailed("系统异常，无法修改当前项目的审核状态");
+        }if (audit_status == 1){
+            mappingUnit.setAuditStatus(1);
+            map.put("mappingUnit",mappingUnit);
+            ResultData update = super.update(map);
+            if (update == null || update.equals("")){
+                Audit tAudit = new Audit();
+                tAudit.setId(Long.parseLong(FileNameUtils.getFileName())).setAuditTime(DateUtils.formatDate(new Date())).setRefId(id).setUserId(mappingUnit.getUserId()).setStatus(1);
+                Integer addAudit = auditService.addAudit(tAudit);
+                if (addAudit != null && addAudit > 0) {
+                    return super.operationSuccess(addAudit,"未通过审核并增加了记录");
+                }
+                return super.operationSuccess(update,"未通过审核,增加记录失败");
+            }
+            return super.operationFailed("系统异常，无法修改当前项目的审核状态");
+        }
+        return super.operationFailed();
+    }
+
+    /**
+     * @Author Don
      * @Description 评分记录
      * @Date 2020/7/14 10:40
      **/
@@ -97,18 +157,25 @@ public class UnitController extends CommonController<MappingUnit> {
 
     /**
      * @Author Don
-     * @Description 新增或者修改评分记录
-     * @Date 2020/7/14 10:40
+     * @Description :  新增或者修改评分记录
+     * @Date 2020/7/17 10:09
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
      **/
-    @GetMapping("/addOrUpdateScoreRecords")
+    @PostMapping("/addOrUpdateScoreRecords")
     public ResultData addOrUpdateScoreRecords(@RequestParam Map map) {
-        Map<String, Object> resultMap = scoreService.addOrUpdateScoreRecords(map);
-        if (UPDATE_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+        Map<String, Object> resultMap = scoreService.addScoreRecords(map);
+        if (ADD_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
             //记录新增或者修改成功 修改单位表的分值
-
-            return super.selectSuccess(resultMap.get("data"));
+            Map<String, Object> updateUnitResult = unitService.updateMappingUnit(map);
+            //TODO 文件添加操作 需联合资源表与单位表
+            if (UPDATE_DATA_SUCCESS.getCode().equals(updateUnitResult.get("code"))) {
+                return super.updateSuccess(resultMap.get("data") + "");
+            } else {
+                return super.updateFailed();
+            }
         } else {
-            return super.selectFailed();
+            return super.updateFailed();
         }
     }
 

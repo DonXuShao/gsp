@@ -6,15 +6,20 @@ import com.gsp.springcloud.base.BaseService;
 import com.gsp.springcloud.base.ResultData;
 import com.gsp.springcloud.mapper.UnitMapper;
 import com.gsp.springcloud.model.MappingUnit;
+import com.gsp.springcloud.model.Score;
+import com.gsp.springcloud.utils.DateUtils;
+import com.gsp.springcloud.utils.FileNameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_FAILED;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
+import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_SUCCESS;
 
 /**
  * @Author Don
@@ -111,7 +116,7 @@ public class UnitService extends BaseService<MappingUnit> {
 
     /**
      * @Author Don
-     * @Description  随机按照比例查询
+     * @Description 随机按照比例查询
      * @Date 2020/7/16 15:29
      **/
     public Map<String, Object> selectRandomCheckUnit(Map map) {
@@ -132,5 +137,58 @@ public class UnitService extends BaseService<MappingUnit> {
         }
         return resultMap;
     }
+
+    /**
+     * @Author Don
+     * @Description :  更新单位表信息
+     * @Date 2020/7/17 10:07
+     * @Parameter : [map]
+     * @Return  java.util.Map<java.lang.String,java.lang.Object>
+     **/
+    public Map<String, Object> updateMappingUnit(Map map) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+
+        MappingUnit mappingUnit = new MappingUnit();
+
+        if (map.get("id") != null) {
+            mappingUnit.setId(Long.parseLong(map.get("id") + ""));
+        }
+        //分值操作
+        if (map.get("score") != null) {
+            if (map.get("score_plus") != null && ! "".equals(map.get("score_plus"))) {
+                mappingUnit.setScore(Integer.parseInt(map.get("score") + "") + Integer.parseInt(map.get("score_plus") + ""));
+            }
+            if (map.get("score_subtract") != null && ! "".equals(map.get("score_subtract"))) {
+                mappingUnit.setScore(Integer.parseInt(map.get("score") + "") - Integer.parseInt(map.get("score_subtract") + ""));
+            }
+        }
+        //审核状态
+        if (map.get("audit_status") != null) {
+            mappingUnit.setAuditStatus((Integer) map.get("audit_status"));
+        }
+
+
+        Integer updateResult = super.update(mappingUnit);
+
+        //根据分数判断其黑白名单状态
+        MappingUnit mappingUnit1 = super.selectOne(mappingUnit);
+        if (mappingUnit1.getScore() >= 100) {
+            mappingUnit.setUnitStatus(1);
+        } else if (mappingUnit1.getScore() < 60) {
+            mappingUnit.setUnitStatus(2);
+        } else {
+            mappingUnit.setUnitStatus(3);
+        }
+        super.update(mappingUnit);
+
+
+        if (updateResult > 0) {
+            resultMap.put("code", UPDATE_DATA_SUCCESS.getCode());
+            resultMap.put("msg", UPDATE_DATA_SUCCESS.getMsg());
+            resultMap.put("data", updateResult);
+        }
+        return resultMap;
+    }
+
 
 }

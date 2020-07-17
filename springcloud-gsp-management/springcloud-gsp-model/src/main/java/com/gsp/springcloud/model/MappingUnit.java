@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @Author Don
@@ -20,7 +19,12 @@ import javax.persistence.Table;
 @Accessors(chain = true)
 @Table(name = "t_mapping_unit")
 public class MappingUnit extends BaseModel {
-
+    /**
+     * 编号
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     /**
      * 备注
      */
@@ -319,7 +323,7 @@ public class MappingUnit extends BaseModel {
     /**
      * 随机查询时使用
      */
-    @Column(name = "")
-    private Double random;
+//    @TableField(exist = false)
+//    private Double random;
 
     }
