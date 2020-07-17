@@ -1,11 +1,11 @@
 package com.gsp.springcloud.controller;
 
 import com.gsp.springcloud.base.ResultData;
+import com.gsp.springcloud.model.CheckPerson;
+import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.service.SpringCloudService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -180,5 +180,66 @@ public class UnitController {
     @GetMapping("/selectRandomPerson")
     public ResultData selectRandomPerson(@RequestParam Map map) {
         return springCloudService.selectRandomPerson(map);
+    }
+
+
+    /**
+     * @Author Don
+     * @Description :  新增或者修改抽查人员信息
+     * @Date 2020/7/17 16:37
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateCheckPerson")
+    public ResultData addOrUpdateCheckPerson(@RequestBody CheckPerson checkPerson) {
+        return springCloudService.addOrUpdateCheckPerson(checkPerson);
+    }
+
+    /**
+     * @Author Don
+     * @Description :  删除抽查人员
+     * @Date 2020/7/17 17:33
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/deleteCheckPerson")
+    public ResultData deleteCheckPerson(@RequestBody CheckPerson checkPerson) {
+        return springCloudService.deleteCheckPerson(checkPerson);
+    }
+
+    /**
+     * @Author Don
+     * @Description : 单位审核
+     * @Date 2020/7/17 15:55
+     * @Parameter : [id, audit_status]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/updateMappingUnitAudit")
+    public ResultData updateMappingUnitAudit(@RequestParam Map map) {
+        return springCloudService.updateMappingUnitAudit(map);
+    }
+
+    /**
+     * @Author Don
+     * @Description :  单位注册或者修改
+     * @Date 2020/7/17 15:18
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateMappingUnit")
+    public ResultData addOrUpdateMappingUnit(@RequestBody MappingUnit mappingUnit) {
+        return springCloudService.addOrUpdateMappingUnit(mappingUnit);
+    }
+
+    /**
+     * @Author Don
+     * @Description :  分值的新增与修改方法
+     * @Date 2020/7/17 18:39
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateScoreRecords")
+    public ResultData addOrUpdateScoreRecords(@RequestParam Map map) {
+        return springCloudService.addOrUpdateScoreRecords(map);
     }
 }

@@ -1,11 +1,13 @@
 package com.gsp.springcloud.model;
 
+import com.gsp.springcloud.base.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,20 +20,23 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Accessors(chain = true)
-public class CheckPerson implements Serializable {
-    private Long id;
+@Table(name = "t_check_person")
+public class CheckPerson extends BaseModel implements Serializable {
 
     private String name;
+
     @Column(name = "unit_name")
     private String unitName;
 
     private String duty;
 
     private String phone;
+
     @Column(name = "create_time")
-    private Date createTime;
+    private String createTime;
+
     @Column(name = "modify_time")
-    private Date modifyTime;
+    private String modifyTime;
 
     private String memo;
 }

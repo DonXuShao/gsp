@@ -5,6 +5,7 @@ import com.gsp.springcloud.base.CommonController;
 import com.gsp.springcloud.base.ResultData;
 import com.gsp.springcloud.mapper.CheckPersonMapper;
 import com.gsp.springcloud.model.Audit;
+import com.gsp.springcloud.model.CheckPerson;
 import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.model.Score;
 import com.gsp.springcloud.service.*;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gsp.springcloud.status.AddStatus.ADD_DATA_SUCCESS;
+import static com.gsp.springcloud.status.DeleteStatus.DELETE_DATA_SUCCESS;
+import static com.gsp.springcloud.status.OperationStatus.SUCCESS;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
 import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_SUCCESS;
 
@@ -86,14 +89,19 @@ public class UnitController extends CommonController<MappingUnit> {
 
     /**
      * @Author Don
-     * @Description :  单位注册
+     * @Description :  单位注册或者修改
      * @Date 2020/7/17 15:18
      * @Parameter : [map]
      * @Return com.gsp.springcloud.base.ResultData
      **/
-    @PutMapping("/addUnit")
-    public ResultData addUnit(@RequestParam Map map) {
-        return super.add(map);
+    @PostMapping("/addOrUpdateMappingUnit")
+    public ResultData addOrUpdateMappingUnit(MappingUnit mappingUnit) {
+        Map<String, Object> map = unitService.addOrUpdateMappingUnit(mappingUnit);
+        if (SUCCESS.getCode().equals(map.get("code"))) {
+            return super.operationSuccess(map);
+        } else {
+            return super.operationFailed();
+        }
     }
 
     /**
@@ -101,43 +109,16 @@ public class UnitController extends CommonController<MappingUnit> {
      * @Description : 单位审核
      * @Date 2020/7/17 15:55
      * @Parameter : [id, audit_status]
-     * @Return  com.gsp.springcloud.base.ResultData
+     * @Return com.gsp.springcloud.base.ResultData
      **/
-    @PostMapping("/updateProjectById")
-    public ResultData updateProjectById(Long id,Integer audit_status){
-        MappingUnit mappingUnit = new MappingUnit();
-        Map map = new HashMap();
-        mappingUnit.setId(id);
-        if (audit_status == 0){
-            mappingUnit.setAuditStatus(0);
-            map.put("mappingUnit",mappingUnit);
-            ResultData update = super.update(map);
-            if (update != null && !update.equals("")){
-                Audit tAudit = new Audit();
-                tAudit.setId(Long.parseLong(FileNameUtils.getFileName())).setAuditTime(DateUtils.formatDate(new Date())).setRefId(id).setUserId(mappingUnit.getUserId()).setStatus(0);
-                Integer addAudit = auditService.addAudit(tAudit);
-                if (addAudit != null && addAudit > 0) {
-                    return super.operationSuccess(addAudit,"已将该项目审核状态修改为通过并增加了记录");
-                }
-                return super.operationSuccess(update,"已将该项目审核状态修改为通过,增加记录失败");
-            }
-            return super.operationFailed("系统异常，无法修改当前项目的审核状态");
-        }if (audit_status == 1){
-            mappingUnit.setAuditStatus(1);
-            map.put("mappingUnit",mappingUnit);
-            ResultData update = super.update(map);
-            if (update == null || update.equals("")){
-                Audit tAudit = new Audit();
-                tAudit.setId(Long.parseLong(FileNameUtils.getFileName())).setAuditTime(DateUtils.formatDate(new Date())).setRefId(id).setUserId(mappingUnit.getUserId()).setStatus(1);
-                Integer addAudit = auditService.addAudit(tAudit);
-                if (addAudit != null && addAudit > 0) {
-                    return super.operationSuccess(addAudit,"未通过审核并增加了记录");
-                }
-                return super.operationSuccess(update,"未通过审核,增加记录失败");
-            }
-            return super.operationFailed("系统异常，无法修改当前项目的审核状态");
+    @PostMapping("/updateMappingUnitAudit")
+    public ResultData updateMappingUnitAudit(@RequestParam Map map) {
+        Map<String, Object> resultMap = unitService.updateMappingUnitAudit(map);
+        if (UPDATE_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            return super.operationSuccess(resultMap.get("data"));
+        } else {
+            return super.operationFailed();
         }
-        return super.operationFailed();
     }
 
     /**
@@ -371,6 +352,40 @@ public class UnitController extends CommonController<MappingUnit> {
             return super.selectSuccess(resultMap.get("data"));
         } else {
             return super.selectFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description :  新增或者修改抽查人员信息
+     * @Date 2020/7/17 16:37
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateCheckPerson")
+    public ResultData addOrUpdateCheckPerson(CheckPerson checkPerson) {
+        Map<String, Object> map = checkPersonService.addOrUpdateCheckPerson(checkPerson);
+        if (SUCCESS.getCode().equals(map.get("code"))) {
+            return super.operationSuccess(map);
+        } else {
+            return super.operationFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description :  删除抽查人员
+     * @Date 2020/7/17 17:33
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/deleteCheckPerson")
+    public ResultData deleteCheckPerson(CheckPerson checkPerson) {
+        Map<String, Object> map = checkPersonService.deleteCheckPerson(checkPerson);
+        if (DELETE_DATA_SUCCESS.getCode().equals(map.get("code"))) {
+            return super.operationSuccess(map);
+        } else {
+            return super.operationFailed();
         }
     }
 }

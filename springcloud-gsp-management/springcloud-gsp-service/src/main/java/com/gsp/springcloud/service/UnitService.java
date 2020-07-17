@@ -4,7 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gsp.springcloud.base.BaseService;
 import com.gsp.springcloud.base.ResultData;
+import com.gsp.springcloud.mapper.AuditMapper;
 import com.gsp.springcloud.mapper.UnitMapper;
+import com.gsp.springcloud.model.Audit;
+import com.gsp.springcloud.model.CheckPerson;
 import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.model.Score;
 import com.gsp.springcloud.utils.DateUtils;
@@ -17,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gsp.springcloud.status.OperationStatus.SUCCESS;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_FAILED;
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
+import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_FAILED;
 import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_SUCCESS;
 
 /**
@@ -32,6 +37,9 @@ public class UnitService extends BaseService<MappingUnit> {
 
     @Autowired
     private UnitMapper unitMapper;
+
+    @Autowired
+    AuditService auditService;
 
     /**
      * @return
@@ -140,10 +148,58 @@ public class UnitService extends BaseService<MappingUnit> {
 
     /**
      * @Author Don
+     * @Description :  单位审核
+     * 更新单位审核状态，添加审核记录
+     * @Date 2020/7/17 19:06
+     * @Parameter : [map]
+     * @Return  java.util.Map<java.lang.String,java.lang.Object>
+     **/
+    public Map<String, Object> updateMappingUnitAudit(Map map) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        Audit audit = new Audit();
+        MappingUnit mappingUnit = new MappingUnit();
+        Integer updateResult;
+        Integer addAuditResult;
+
+        mappingUnit.setId(Long.parseLong(map.get("id") + ""));
+        Integer audit_status = Integer.parseInt(map.get("audit_status") + "");
+        if (audit_status == 0) {
+            mappingUnit.setAuditStatus(0);
+        } else if (audit_status == 1) {
+            mappingUnit.setAuditStatus(1);
+        }
+        updateResult = super.update(mappingUnit);
+        MappingUnit mappingUnit1 = super.selectOne(mappingUnit);
+        if (updateResult > 0) {
+            audit.setId(Long.parseLong(FileNameUtils.getFileName()));
+            audit.setName(map.get("name") + "");
+            audit.setType(Integer.parseInt(map.get("type") + ""));
+            audit.setUserId(mappingUnit1.getUserId());
+            audit.setAuditTime(DateUtils.formatDate(new Date()));
+            audit.setRefId(mappingUnit1.getUserId());
+            audit.setStatus(audit_status);
+            audit.setCreateTime(DateUtils.formatDate(new Date()));
+            audit.setMemo(map.get("memo") + "");
+
+            addAuditResult = auditService.add(audit);
+            if (addAuditResult != null && addAuditResult > 0) {
+                resultMap.put("code", UPDATE_DATA_SUCCESS.getCode());
+                resultMap.put("msg", UPDATE_DATA_SUCCESS.getMsg());
+                resultMap.put("data", updateResult);
+            } else {
+                resultMap.put("code", UPDATE_DATA_FAILED.getCode());
+                resultMap.put("msg", UPDATE_DATA_FAILED.getMsg());
+            }
+        }
+        return resultMap;
+    }
+
+    /**
+     * @Author Don
      * @Description :  更新单位表信息
      * @Date 2020/7/17 10:07
      * @Parameter : [map]
-     * @Return  java.util.Map<java.lang.String,java.lang.Object>
+     * @Return java.util.Map<java.lang.String, java.lang.Object>
      **/
     public Map<String, Object> updateMappingUnit(Map map) {
         HashMap<String, Object> resultMap = new HashMap<>();
@@ -155,10 +211,10 @@ public class UnitService extends BaseService<MappingUnit> {
         }
         //分值操作
         if (map.get("score") != null) {
-            if (map.get("score_plus") != null && ! "".equals(map.get("score_plus"))) {
+            if (map.get("score_plus") != null && !"".equals(map.get("score_plus"))) {
                 mappingUnit.setScore(Integer.parseInt(map.get("score") + "") + Integer.parseInt(map.get("score_plus") + ""));
             }
-            if (map.get("score_subtract") != null && ! "".equals(map.get("score_subtract"))) {
+            if (map.get("score_subtract") != null && !"".equals(map.get("score_subtract"))) {
                 mappingUnit.setScore(Integer.parseInt(map.get("score") + "") - Integer.parseInt(map.get("score_subtract") + ""));
             }
         }
@@ -190,5 +246,34 @@ public class UnitService extends BaseService<MappingUnit> {
         return resultMap;
     }
 
+    /**
+     * @Author Don
+     * @Description :  注册或者修改单位信息
+     * @Date 2020/7/17 17:13
+     * @Parameter : [mappingUnit]
+     * @Return java.util.Map<java.lang.String, java.lang.Object>
+     **/
+    public Map<String, Object> addOrUpdateMappingUnit(MappingUnit mappingUnit) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        Integer operation = null;
+        if (mappingUnit.getId() != null) {
+            mappingUnit.setModifyTime(DateUtils.formatDate(new Date()));
+            operation = super.update(mappingUnit);
+        } else {
+            mappingUnit.setId(Long.parseLong(FileNameUtils.getFileName()));
+            mappingUnit.setCreateTime(DateUtils.formatDate(new Date()));
+            operation = super.add(mappingUnit);
+        }
+
+        if (operation > 0) {
+            resultMap.put("code", SUCCESS.getCode());
+            resultMap.put("msg", SUCCESS.getMsg());
+            resultMap.put("data", operation);
+        } else {
+            resultMap.put("code", SUCCESS.getCode());
+            resultMap.put("msg", SUCCESS.getMsg());
+        }
+        return resultMap;
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.gsp.springcloud.fallback;
 
 import com.gsp.springcloud.base.ResultData;
+import com.gsp.springcloud.model.CheckPerson;
+import com.gsp.springcloud.model.MappingUnit;
 import com.gsp.springcloud.service.SpringCloudService;
 import feign.hystrix.FallbackFactory;
 
@@ -82,6 +84,26 @@ public class SpringCloudServiceFallBack implements FallbackFactory<SpringCloudSe
             }
 
             public ResultData selectRandomPerson(Map map) {
+                return null;
+            }
+
+            public ResultData addOrUpdateCheckPerson(CheckPerson checkPerson) {
+                return null;
+            }
+
+            public ResultData deleteCheckPerson(CheckPerson checkPerson) {
+                return null;
+            }
+
+            public ResultData updateMappingUnitAudit(Map map) {
+                return null;
+            }
+
+            public ResultData addOrUpdateMappingUnit(MappingUnit mappingUnit) {
+                return null;
+            }
+
+            public ResultData addOrUpdateScoreRecords(Map map) {
                 return null;
             }
         };

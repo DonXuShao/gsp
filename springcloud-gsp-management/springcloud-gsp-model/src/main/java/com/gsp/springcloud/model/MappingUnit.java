@@ -22,9 +22,9 @@ public class MappingUnit extends BaseModel {
     /**
      * 编号
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
     /**
      * 备注
      */

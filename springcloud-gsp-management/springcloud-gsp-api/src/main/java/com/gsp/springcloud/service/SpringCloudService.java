@@ -2,8 +2,12 @@ package com.gsp.springcloud.service;
 
 
 import com.gsp.springcloud.base.ResultData;
+import com.gsp.springcloud.model.CheckPerson;
+import com.gsp.springcloud.model.MappingUnit;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
@@ -16,7 +20,7 @@ import java.util.Map;
  * @Version 1.0
  **/
 @FeignClient(value = "gsp-interface")
-public interface SpringCloudService {
+ public interface SpringCloudService {
 
     /**
      * @Author Don
@@ -145,4 +149,54 @@ public interface SpringCloudService {
      **/
     @GetMapping("/selectRandomPerson")
     ResultData selectRandomPerson(@RequestParam Map map);
+
+    /**
+     * @Author Don
+     * @Description :  新增或者修改抽查人员信息
+     * @Date 2020/7/17 16:37
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateCheckPerson")
+     ResultData addOrUpdateCheckPerson(@RequestBody CheckPerson checkPerson);
+
+    /**
+     * @Author Don
+     * @Description :  删除抽查人员
+     * @Date 2020/7/17 17:33
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/deleteCheckPerson")
+     ResultData deleteCheckPerson(@RequestBody CheckPerson checkPerson);
+
+    /**
+     * @Author Don
+     * @Description : 单位审核
+     * @Date 2020/7/17 15:55
+     * @Parameter : [id, audit_status]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/updateMappingUnitAudit")
+     ResultData updateMappingUnitAudit(@RequestParam Map map);
+
+    /**
+     * @Author Don
+     * @Description :  单位注册或者修改
+     * @Date 2020/7/17 15:18
+     * @Parameter : [map]
+     * @Return com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateMappingUnit")
+     ResultData addOrUpdateMappingUnit(@RequestBody MappingUnit mappingUnit);
+
+    /**
+     * @Author Don
+     * @Description :  分值的新增与修改方法
+     * @Date 2020/7/17 18:39 
+     * @Parameter : [map]
+     * @Return  com.gsp.springcloud.base.ResultData
+     **/
+    @PostMapping("/addOrUpdateScoreRecords")
+     ResultData addOrUpdateScoreRecords(@RequestParam Map map);
 }

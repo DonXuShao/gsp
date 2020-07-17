@@ -19,7 +19,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Data
-public class Audit extends BaseModel {
+public class Audit  {
     /**
      * 编号
      */
