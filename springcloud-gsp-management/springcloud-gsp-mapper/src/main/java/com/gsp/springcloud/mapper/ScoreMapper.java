@@ -18,8 +18,10 @@ import java.util.List;
 public interface ScoreMapper extends Mapper<Score> {
     /**
      * @Author Don
-     * @Description  评分记录
+     * @Description  查看评分记录
      * @Date 2020/7/14 10:49
      **/
     List<HashMap> selectScoreRecords(MappingUnit tMappingUnit);
+
+
 }

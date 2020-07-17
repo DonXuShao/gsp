@@ -2,22 +2,23 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="springcloud-gsp-service" />
-        <module name="springcloud-gsp-eureka01-7001" />
-        <module name="springcloud-gsp-model" />
-        <module name="springcloud-gsp-eureka02-7002" />
-        <module name="springcloud-gsp-mapper" />
         <module name="springcloud-gsp-api" />
+        <module name="springcloud-gsp-mapper" />
+        <module name="springcloud-gsp-model" />
+        <module name="springcloud-gsp-eureka01-7001" />
+        <module name="springcloud-gsp-eureka02-7002" />
+        <module name="springcloud-gsp-config" />
+        <module name="springcloud-gsp-zuul" />
         <module name="springcloud-gsp-consumer8081" />
         <module name="springcloud-gsp-eureka03-7003" />
         <module name="springcloud-gsp-common" />
-        <module name="springcloud-gsp-zuul" />
+        <module name="springcloud-gsp-service" />
         <module name="springcloud-gsp-provider01" />
-        <module name="springcloud-gsp-config" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">

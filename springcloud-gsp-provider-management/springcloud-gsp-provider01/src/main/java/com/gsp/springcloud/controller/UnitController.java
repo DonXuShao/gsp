@@ -5,6 +5,7 @@ import com.gsp.springcloud.base.CommonController;
 import com.gsp.springcloud.base.ResultData;
 import com.gsp.springcloud.mapper.CheckPersonMapper;
 import com.gsp.springcloud.model.MappingUnit;
+import com.gsp.springcloud.model.Score;
 import com.gsp.springcloud.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.gsp.springcloud.status.SelectStatus.SELECT_DATA_SUCCESS;
+import static com.gsp.springcloud.status.UpdateStatus.UPDATE_DATA_SUCCESS;
 
 /**
  * @Author Don
@@ -87,6 +89,23 @@ public class UnitController extends CommonController<MappingUnit> {
     public ResultData selectScoreRecords(@RequestParam Map map) {
         Map<String, Object> resultMap = scoreService.selectScoreRecords(map);
         if (SELECT_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            return super.selectSuccess(resultMap.get("data"));
+        } else {
+            return super.selectFailed();
+        }
+    }
+
+    /**
+     * @Author Don
+     * @Description 新增或者修改评分记录
+     * @Date 2020/7/14 10:40
+     **/
+    @GetMapping("/addOrUpdateScoreRecords")
+    public ResultData addOrUpdateScoreRecords(@RequestParam Map map) {
+        Map<String, Object> resultMap = scoreService.addOrUpdateScoreRecords(map);
+        if (UPDATE_DATA_SUCCESS.getCode().equals(resultMap.get("code"))) {
+            //记录新增或者修改成功 修改单位表的分值
+
             return super.selectSuccess(resultMap.get("data"));
         } else {
             return super.selectFailed();

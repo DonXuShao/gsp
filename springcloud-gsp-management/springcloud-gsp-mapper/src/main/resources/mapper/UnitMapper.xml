@@ -91,7 +91,7 @@
   </select>
 
     <select id="selectRandomCheckUnit" resultType="HashMap" parameterType="Map">
-        select @rownum := @rownum + 1, t_mapping_unit.*
+        select @  := @rownum + 1, t_mapping_unit.*
         from (select @rownum := 0) row,
         t_mapping_unit
         <where>
