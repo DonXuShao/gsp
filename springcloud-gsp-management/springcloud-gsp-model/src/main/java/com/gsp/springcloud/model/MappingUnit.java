@@ -326,4 +326,13 @@ public class MappingUnit extends BaseModel {
 //    @TableField(exist = false)
 //    private Double random;
 
+    /**
+     * 等级条数
+     */
+    private Integer unitcount;
+
+    /**
+     * 等级名称
+     */
+    private String unitlevel;
     }

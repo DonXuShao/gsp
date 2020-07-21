@@ -266,5 +266,20 @@ public class MappingProject extends BaseModel {
      * 坐标
      */
     private String coordinate;
-
+    /**
+     * 项目类型条数
+     */
+    private Integer procount;
+    /**
+     * 项目类型名称
+     */
+    private String protype;
+    /**
+     * 项目类型完成情况
+     */
+    private Integer prostatus;
+    /**
+     * 每个单位负责的项目数量
+     */
+    private Integer tmpcount;
    }

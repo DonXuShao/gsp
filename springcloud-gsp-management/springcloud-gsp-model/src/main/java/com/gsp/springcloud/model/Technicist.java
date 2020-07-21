@@ -155,5 +155,9 @@ public class Technicist extends BaseModel {
     @Column(name = "user_id")
     private Long userId;
 
+    /**
+     * 单个项目初中高技术员人数
+     */
+    private Integer mtcount;
 
 }

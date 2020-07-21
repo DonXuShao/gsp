@@ -98,4 +98,9 @@ public class SpecialPost extends BaseModel {
      */
     @Column(name = "modify_time")
     private String modifyTime;
+
+    /**
+     * 单个项目特殊人员人数
+     */
+    private Integer tspcount;
 }
