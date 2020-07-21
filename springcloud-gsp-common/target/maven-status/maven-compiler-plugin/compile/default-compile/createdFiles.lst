@@ -8,6 +8,7 @@ com\gsp\springcloud\staticproperties\RedisProperties.class
 com\gsp\springcloud\status\LoginStatus.class
 com\gsp\springcloud\base\ResultData.class
 com\gsp\springcloud\base\BaseController.class
+com\gsp\springcloud\utils\ExcelExportMyStylerImpl.class
 com\gsp\springcloud\status\OperationStatus.class
 com\gsp\springcloud\staticproperties\TimeFormatProperties.class
 com\gsp\springcloud\status\SelectStatus.class
@@ -19,3 +20,4 @@ com\gsp\springcloud\utils\FileNameUtils.class
 com\gsp\springcloud\utils\DateUtils.class
 com\gsp\springcloud\utils\SpringContextUtils.class
 com\gsp\springcloud\utils\AddressUtils.class
+com\gsp\springcloud\utils\MyExcelExportUtil.class

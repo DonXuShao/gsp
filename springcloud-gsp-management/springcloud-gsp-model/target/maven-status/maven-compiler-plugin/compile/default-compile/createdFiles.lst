@@ -10,6 +10,7 @@ com\gsp\springcloud\model\SpecialPost.class
 com\gsp\springcloud\base\BaseModel.class
 com\gsp\springcloud\model\Technicist.class
 com\gsp\springcloud\model\MappingProject.class
+com\gsp\springcloud\model\CheckPerson.class
 com\gsp\springcloud\model\ResultCommit.class
 com\gsp\springcloud\model\Resource.class
 com\gsp\springcloud\model\Score.class

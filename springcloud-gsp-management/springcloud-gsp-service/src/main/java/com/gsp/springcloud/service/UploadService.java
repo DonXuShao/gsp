@@ -85,4 +85,22 @@ public class UploadService {
         }
         return null;
     }
+
+    /**
+      * @author XRF
+      * @date  2020/7/20 10:57
+     * 文件上传，
+     * file 上传的文件
+     * path 文件路径
+     * newFileName 新文件的名字
+      * @description
+      */
+    public Boolean upload(MultipartFile file,String filePath,String newFileName){
+        try {
+            return FtpUtils.upload(ftpProperties.getHost(), ftpProperties.getPort(), ftpProperties.getUsername(), ftpProperties.getPassword(), filePath, ftpProperties.getBasePath(), newFileName, file.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

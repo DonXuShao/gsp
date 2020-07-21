@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @Author Don
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Table(name = "t_resource")
-public class Resource extends BaseModel {
+public class Resource extends BaseModel implements Serializable {
 
     /**
      * 资源名称

@@ -21,23 +21,23 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="gsp" target="8" />
-      <module name="springcloud-gsp-api" target="8" />
-      <module name="springcloud-gsp-common" target="8" />
-      <module name="springcloud-gsp-config" target="8" />
-      <module name="springcloud-gsp-consumer-management" target="8" />
-      <module name="springcloud-gsp-consumer8081" target="8" />
-      <module name="springcloud-gsp-eureka-management" target="8" />
-      <module name="springcloud-gsp-eureka01-7001" target="8" />
-      <module name="springcloud-gsp-eureka02-7002" target="8" />
-      <module name="springcloud-gsp-eureka03-7003" target="8" />
-      <module name="springcloud-gsp-management" target="8" />
-      <module name="springcloud-gsp-mapper" target="8" />
-      <module name="springcloud-gsp-model" target="8" />
-      <module name="springcloud-gsp-provider-management" target="8" />
-      <module name="springcloud-gsp-provider01" target="8" />
-      <module name="springcloud-gsp-service" target="8" />
-      <module name="springcloud-gsp-zuul" target="8" />
+      <module name="gsp" target="1.8" />
+      <module name="springcloud-gsp-api" target="1.8" />
+      <module name="springcloud-gsp-common" target="1.8" />
+      <module name="springcloud-gsp-config" target="1.8" />
+      <module name="springcloud-gsp-consumer-management" target="1.8" />
+      <module name="springcloud-gsp-consumer8081" target="1.8" />
+      <module name="springcloud-gsp-eureka-management" target="1.8" />
+      <module name="springcloud-gsp-eureka01-7001" target="1.8" />
+      <module name="springcloud-gsp-eureka02-7002" target="1.8" />
+      <module name="springcloud-gsp-eureka03-7003" target="1.8" />
+      <module name="springcloud-gsp-management" target="1.8" />
+      <module name="springcloud-gsp-mapper" target="1.8" />
+      <module name="springcloud-gsp-model" target="1.8" />
+      <module name="springcloud-gsp-provider-management" target="1.8" />
+      <module name="springcloud-gsp-provider01" target="1.8" />
+      <module name="springcloud-gsp-service" target="1.8" />
+      <module name="springcloud-gsp-zuul" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

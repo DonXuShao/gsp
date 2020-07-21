@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @Author Don
@@ -19,7 +20,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Table(name = "t_mapping_project")
-public class MappingProject extends BaseModel {
+public class MappingProject implements Serializable {
+    private Long id;
     /**
      * 项目类型
      */

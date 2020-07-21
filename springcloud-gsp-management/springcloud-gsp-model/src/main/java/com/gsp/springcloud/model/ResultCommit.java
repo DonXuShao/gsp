@@ -1,5 +1,6 @@
 package com.gsp.springcloud.model;
 
+import com.gsp.springcloud.base.BaseModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @Author Don
@@ -19,7 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Accessors(chain = true)
 @Table(name = "t_result_commit")
-public class ResultCommit {
+public class ResultCommit extends BaseModel implements Serializable {
 
     /**
      * 编号

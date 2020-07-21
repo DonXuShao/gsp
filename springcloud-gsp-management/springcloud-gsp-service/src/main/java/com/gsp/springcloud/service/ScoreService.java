@@ -38,7 +38,7 @@ public class ScoreService extends BaseService<Score> {
      * @Date 2020/7/14 9:56
      **/
     public Map<String, Object> selectScoreRecords(Map map) {
-        HashMap<String, Object> resultMap = new HashMap<>();
+        HashMap<String, Object> resultMap = new HashMap();
 
         MappingUnit tMappingUnit = new MappingUnit();
         if (null != map.get("id")) {

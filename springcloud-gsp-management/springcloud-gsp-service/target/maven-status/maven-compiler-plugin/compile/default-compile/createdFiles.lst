@@ -1,0 +1,16 @@
+com\gsp\springcloud\service\CheckPersonService.class
+com\gsp\springcloud\service\LogService.class
+com\gsp\springcloud\service\ResourceService.class
+com\gsp\springcloud\service\ScoreService.class
+com\gsp\springcloud\service\UnitService.class
+com\gsp\springcloud\service\EquipmentService.class
+com\gsp\springcloud\base\BaseService.class
+com\gsp\springcloud\service\AuditService.class
+com\gsp\springcloud\service\UploadService.class
+com\gsp\springcloud\service\PrincipalService.class
+com\gsp\springcloud\service\LoginService.class
+com\gsp\springcloud\service\TechnicistService.class
+com\gsp\springcloud\service\MappingProjectService.class
+com\gsp\springcloud\service\ResultCommitService.class
+com\gsp\springcloud\redis\RedisService.class
+com\gsp\springcloud\service\SpecialPostService.class
